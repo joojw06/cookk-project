@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberDetailMapper">
+
+	 <!-- 회원가입(mem_id, writer,passwd,grade)  -->
+	<insert id="registerDetail" parameterType="MemberDetailVO">
+		insert into memberdetail(mem_id,writer,passwd,grade)
+		values (#{mem_id},#{writer},#{passwd},'B')
+	</insert>	
+	
+	<!-- 로그인-->
+	<select id="loginDetail" resultType="MemberDetailVO">
+		SELECT mem_id, passwd FROM memberdetail 
+		WHERE mem_id = #{mem_id} AND passwd = #{passwd}  
+	</select> 
+	
+	<select id="idCheck2" parameterType="MemberDetailVO" resultType="int">
+        select count(*) from memberdetail where mem_id=#{mem_id}
+    </select>
+	
+	<select id="writerCheck2" parameterType="MemberDetailVO" resultType="int">
+        select count(*) from memberdetail where writer=#{writer}
+    </select>
+	
+	<select id="findPassword2" resultType="MemberDetailVO">
+		select * from member memberdetail mem_id=#{mem_id} and name=#{name} and phone=#{phone}
+	</select>
+	
+	<!-- 회원탈퇴 디테일-->
+	<delete id="deleteMember"  parameterType="String">
+	    delete from memberdetail where mem_id=#{mem_id} 
+	</delete>
+	
+	<!-- 회원탈퇴 암호 -->
+	<select id="searchPw"  parameterType="String" resultType="String">
+	    select passwd from memberdetail where mem_id=#{mem_id}
+	</select>
+	
+</mapper>

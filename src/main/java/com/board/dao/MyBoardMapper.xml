@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+    
+<mapper namespace="Board">  
+ 
+ <!-- 1. springboard2 테이블에서 SQL작업(1.글목록보기)  id는 sql구문 구분인자-->
+<select id="selectList7" parameterType="map" resultType="MyBoardVO">
+ 	select mem_id ,writer,m_img ,grade
+ 		from (select a.*,rownum rnum
+ 			from(select * from mypage
+ 				<where>
+ 				 	<if test="keyWord!=null and keyField=='title'">
+ 				 			title like '%' || #{keyWord} || '%'
+ 				 	</if>
+ 				 	<if test="keyWord!=null and keyField=='writer'">
+                            writer like '%' || #{keyWord} || '%'
+                     </if>
+                     <if test="keyWord!=null and keyField=='all'">
+                            title like '%' || #{keyWord} || '%'  or
+                            writer like '%' || #{keyWord} || '%' 
+                     </if>
+ 				</where>
+ 			order by seq desc)a)
+ 	<![CDATA[
+    where rnum >=#{start} AND rnum <=#{end}
+    ]]>
+</select>
+ 
+ <!-- 2.검색어에 해당하는 총레코드수 구하기 (java.lang.Integer->Integer->int)-->
+<select id="selectCount7" parameterType="map" resultType="Integer">
+     select count(*) from mypage 
+     	<where>
+                 <if test="keyWord!=null and keyField=='title'">
+                      title  like  '%' || #{keyWord} || '%'
+                 </if>
+                 <if test="keyWord!=null and keyField=='writer'">
+                      writer  like  '%' || #{keyWord} || '%'
+                 </if>
+                 <if test="keyWord!=null and keyField=='all'">
+                      title  like  '%' || #{keyWord} || '%' or
+                      writer  like  '%' || #{keyWord} || '%' 
+                 </if>
+           </where>
+ </select>
+ 
+<!-- 최대값 구하기 -->
+	<select id="getNewSeq7" resultType="int">
+ 		select max(board_num) from mypage
+ 	</select>
+ 	
+<!-- 3.글쓰기 (sysdate,mysql(now()) 
+		업로드하느느 파일명만,jdbcType=VARCHAR(문자열)추가 -->
+	<insert id="insertBoard7" parameterType="MyBoardVO">
+		insert into mypage(seq,writer,title,content,pwd,hit,regdate,filename)
+		values(#{seq},#{writer},#{title},#{content},#{pwd},0,sysdate,
+              #{filename,jdbcType=VARCHAR})
+	</insert>
+
+<!-- 4.조회수 증가하기 java.lang.String(문자인데)->String(대 0)->string(소 X) -->
+  <update id="updateHit7" parameterType="Integer" >
+    update mypage set hit=hit+1 where seq=#{seq}
+ </update>
+	
+	
+<!-- 5.게시물 번호에 따른 레코드 한개 상세보기 -->
+ <select id="selectBoard7" parameterType="Integer"  resultType="MyBoardVO">
+     select * from mypage where seq=#{seq}
+ </select>
+
+
+<!-- 6.글삭제하기 -->
+<delete id="deleteBoard7" parameterType="Integer">
+	delete from mypage where seq=#{seq}
+</delete>
+
+<!-- 7.글 수정하기 -->
+<update id="updateBoard7" parameterType="MyBoardVO">
+	update mypage set writer=#{writer},title=#{title}
+	,content=#{content},filename=#{filename:VARCHAR}
+	where seq=#{seq}
+</update>
+	
+</mapper>
+
+
+
+
+
+
+
