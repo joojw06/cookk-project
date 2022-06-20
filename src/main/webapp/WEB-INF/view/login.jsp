@@ -122,7 +122,7 @@
                     <a href="../board/FindPassword.do" class="color-green">여기를 클릭하세요.</a>
                     </p>
                     
-                    
+                    <input type="hidden" id="user_type"  name="user_type" value="user"/>
                 </form>            
             </div>
         </div><!--/row-->

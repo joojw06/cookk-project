@@ -98,6 +98,7 @@ import com.board.domain.MemberVO;
 						 MemberDetailVO mdv=new MemberDetailVO();
 						 mdv.setMem_id(vo.getMem_id());
 						 mdv.setWriter(vo.getWriter());
+						 mdv.setUser_type(vo.getUser_type());
 						 mdv.setPasswd(vo.getPasswd());
 						 mdv.setGrade(vo.getGrade());//기본적인 회원등급을 'B'라고 정해놨음
 						 memberService.registerDetail(mdv);

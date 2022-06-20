@@ -260,7 +260,7 @@
 	    <div id="footer"> 
 	    	<jsp:include page="Footer.jsp" />
 	    </div>
-	    
+	    <input type="hidden" id="user_type"  name="user_type" value="user"/>
       </form><!-- form action -->
       
   </body>

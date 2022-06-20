@@ -4,9 +4,16 @@ import java.util.Date;
 
 public class MemberDetailVO {
 
-	private String mem_id,writer,passwd;//id,nickname,passwd
+	private String mem_id,writer,passwd,user_type;//id,nickname,passwd
 	private int grade;//등급
 	
+	
+	public String getUser_type() {
+		return user_type;
+	}
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
+	}
 	public String getMem_id() {
 		return mem_id;
 	}

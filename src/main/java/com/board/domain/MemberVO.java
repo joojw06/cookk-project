@@ -3,11 +3,17 @@ package com.board.domain;
 import java.util.Date;
 
 public class MemberVO {
-	private String mem_id,writer,passwd,name,phone;
+	private String mem_id,writer,passwd,name,phone,user_type;
 	private Date mem_date;
 	private int grade;
 	
 	
+	public String getUser_type() {
+		return user_type;
+	}
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
+	}
 	public String getMem_id() {
 		return mem_id;
 	}
